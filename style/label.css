@@ -1,0 +1,56 @@
+body{
+	--lbw: 1px; /*label border width*/
+	--cw: calc(var(--lbw) * 10); /*corner width*/
+	--co: calc(var(--lbw) * -5); /*corner offset*/
+}
+
+.label{
+	position: absolute;
+	border-width: var(--lbw);
+	border-color: red;
+	border-style: solid;
+	cursor: grab;
+}
+.label:hover{
+	background-color: rgba(255,0,0,.5);
+}
+.label:focus{
+	background-color: rgba(0,255,0,.5);
+}
+.label>.corner{
+	width: var(--cw);
+	height: var(--cw);
+	min-width: 3px;
+	min-height: 3px;
+	position: absolute;
+	background-color: red;
+}
+.label>.corner:hover{
+	transform: scale(1.5);
+}
+.label>.corner:nth-child(1){
+	top: var(--co);
+	left: var(--co);
+	cursor: nw-resize;
+}
+.label>.corner:nth-child(2){
+	top: var(--co);
+	right: var(--co);
+	cursor: ne-resize;
+
+}
+.label>.corner:nth-child(3){
+	bottom: var(--co);
+	right: var(--co);
+	cursor: se-resize;
+
+}
+.label>.corner:nth-child(4){
+	bottom: var(--co);
+	left: var(--co);
+	cursor: sw-resize;
+
+}
+.resizing .label>.corner{
+	cursor: none !important;
+}

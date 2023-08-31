@@ -1,0 +1,32 @@
+body{
+	margin: 0px;
+	overflow: hidden;
+	--handles-width: 2px;
+	--left-panel-width: 50px;
+	--right-panel-width: 100px;
+}
+#container{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+}
+
+#right_panel{
+	width: var(--right-panel-width);
+}
+#left_panel{
+	width: var(--left-panel-width);
+}
+.panel{
+	background-color: white;
+	z-index: 2;
+	display: none;
+}
+.panel.side{
+	height: 100%;
+	width: 100px;
+}
+.panel.side>.window{
+	width: 100%;
+	text-align: center;
+}

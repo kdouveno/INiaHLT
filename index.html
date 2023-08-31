@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Hello World!</title>
+
+	<link rel="stylesheet" href="style/main.css">
+	<link rel="stylesheet" href="style/label.css">
+	<link rel="stylesheet" href="style/canvas.css">
+	<div id="template">
+		<div class="label" tabindex=0>
+			<div class="corner"></div>
+			<div class="corner"></div>
+			<div class="corner"></div>
+			<div class="corner"></div>
+		</div>
+	</div>
+  </head>
+  <body>
+    <div id="container">
+		<div id="left_panel" class="side panel">
+			<div id="buttons" class="window">
+				<div class="button">Save</div>
+				<div class="button">Img Dir</div>
+				<div class="button">Anno Dir</div>
+				<div class="button">d'autre truc</div>
+				<div class="button"></div>
+				<div class="button"></div>
+				<div class="button"></div>
+				<div class="button"></div>
+			</div>
+		</div>
+		<div id="canvasContainer">
+			<div id="canvasWrapper">
+				<div id="canvas">
+					<img id="img" draggable="false" src="G:\Images\FEUR\RGB_214_46408.jpg">
+				</div>
+			</div>
+		</div>
+		<div id="right_panel" class="side panel">
+			
+		</div>
+	</div>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="scripts/label.js"></script>
+    <script src="scripts/canvas.js"></script>
+    <script src="test.js"></script>
+  </body>
+</html>
