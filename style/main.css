@@ -3,30 +3,67 @@ body{
 	overflow: hidden;
 	--handles-width: 2px;
 	--left-panel-width: 50px;
-	--right-panel-width: 100px;
+	--right-panel-width: 200px;
+	--panel_sep_width: 3px;
+	--padding: 3px;
+	--status-panel-height: 10px;
 }
+.disabled{
+	display: none !important;
+}
+#template{
+	display: none;
+}
+input{
+	text-overflow: ellipsis;
+	background-color: transparent;
+}
+
 #container{
 	width: 100vw;
-	height: 100vh;
+	height: calc(100vh - var(--status-panel-height));
 	display: flex;
 }
 
 #right_panel{
 	width: var(--right-panel-width);
+	border-left: 1px solid black; 
 }
 #left_panel{
+	border-right: 1px solid black; 
 	width: var(--left-panel-width);
 }
 .panel{
-	background-color: white;
+	background-color: rgba(255,255,255,.5);
+	backdrop-filter: blur(20px);
 	z-index: 2;
-	display: none;
+	padding: var(--padding);
+	display: flex;
+	flex-direction: column;
+}
+.side .panel_sep{
+	height: var(--panel_sep_width);
+	width: 100%;
+	cursor: n-resize;
+
+}
+.panel_sep{
+	height: 100%;
+	width: var(--panel_sep_width);
+	z-index: 2;
+	opacity: .5;
+	cursor: e-resize;
+}
+.panel_sep:hover{
+	background-color: grey;
 }
 .panel.side{
 	height: 100%;
-	width: 100px;
+	width: 200px;
 }
 .panel.side>.window{
 	width: 100%;
-	text-align: center;
+}
+#status_panel{
+	height: var(--status-panel-height);
 }

@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const Iniahlt = new (require("./iniahlt.js"))();
+const path = require("path");
 
 
 const createWindow = () => {
@@ -14,8 +15,16 @@ const createWindow = () => {
 	win.loadFile('index.html')
   }
   app.whenReady().then(() => {
-	createWindow()
+	ipcMain.handle('openDir', ()=>Iniahlt.openDir());
+	createWindow();
+
   })
   app.on('window-all-closed', () => {
 	app.quit()
   })
+
+
+
+ipcMain.on("openFolder", e=>{
+	console.log(e, "openFolder");
+});

@@ -5,13 +5,20 @@ class Canvas {
 	c = document.getElementById("canvas");
 	cw = document.getElementById("canvasWrapper");
 	img = document.getElementById("img");
+	lbll = document.getElementById("label_list");
+	dn = document.getElementById("default_name");
+	o = document.getElementById("open_folder");
+	fl = document.getElementById("file_list");
 	// Settings
 	zim = 1; //Zoom Increment Style : 0 (addition) | 1 (multpiplication)
 	// Parameters
 	peakMode;
 	zoomLvl = 1;
 	peakZoomLvl = 4;
+	dir = "";
 	// Private Data
+	files = new Map();
+
 	reScale;
 	vp_pt_x;
 	vp_pt_y;
@@ -26,7 +33,10 @@ class Canvas {
 	ctr_y = this.img.naturalHeight / 2;
 	tmp_x;
 	tmp_y;
-	labels = [];
+	labels = new Set();
+	focusLabel = null;
+	writing = false;
+	defaultLabel = "";
 	constructor(){
 		
 		//EVENT LISTENERS
@@ -83,7 +93,7 @@ class Canvas {
 			if (e.button == 0){
 				this.shifting = false;
 				this.stopResizing();
-				this.moving = null;
+				this.stopMoving();
 			}
 			else if (e.button == 2)
 			{
@@ -92,12 +102,46 @@ class Canvas {
 			}
 		});
 		window.addEventListener("keydown", e=>{
-			console.log(e.key);
 			if (e.key == "l") {
 				this.newBox = true;
+			} else if (e.key == "Delete") {
+				if (this.focusLabel && !this.writing)
+					this.focusLabel.delete();
+			} else if (e.key == "Enter") {
+				if (this.focusLabel){
+					if(this.writing)
+						this.focusLabel.stopEditing();
+					else
+						this.focusLabel.editLabel();
+				}
 			}
 		});
+		this.dn.addEventListener("input", ()=>{
+			this.defaultLabel = this.dn.value;
+		});
+		this.o.addEventListener("click", ()=>{
+			this.openFolder();
+		});
 		this.resize();
+		this.correctDrawings();
+	}
+
+	
+
+	async openFolder(){
+		let dir = await elec.openDir();
+		this.dir = dir.shift();
+		this.o.innerText = this.dir;
+		this.updateFolder(dir);
+	}
+
+	updateFolder(fileNameArray){
+		fileNameArray.forEach((file)=>{
+			this.files.set(file, new FileItem(this, file));
+		});
+	}
+	save(){
+
 	}
 
 	//COMMANDS
@@ -150,8 +194,10 @@ class Canvas {
 	}
 
 	createBox(){
-		let nl = new Label(this.img_pt_x, this.img_pt_y, this);
-		this.labels.push(nl);
+		let nl = new Label(this, this.img_pt_x, this.img_pt_y);
+		this.labels.add(nl);
+
+		nl.focusIn();
 		nl.startPull(0);
 	}
 	startResizing(label){
@@ -159,8 +205,16 @@ class Canvas {
 		this.cc.classList.add("resizing");
 	}
 	stopResizing() {
+		if (this.resizing)
+			this.resizing.stopResizing();
 		this.resizing = false;
 		this.cc.classList.remove("resizing");
+	}
+	stopMoving(){
+		if (this.moving instanceof Label) {
+			this.moving.stopMoving();
+			this.moving = null;
+		}
 	}
 	// Private methods
 	
@@ -196,6 +250,16 @@ class Canvas {
 		}
 		this.reScale = scale;
 		this.cw.style.transform = "translate" + way + "(" + trans + "px) scale(" + scale + ")";
+	}
+	getLabelsData(){
+		return Array.from(this.labels).map(o=>o.getData());
+	}
+	fromLabelsData(data, replace){
+		if (replace)
+			this.labels.clear();
+		data.forEach(o=>{
+			this.labels.add(new Label(this, o));
+		});
 	}
 }
 

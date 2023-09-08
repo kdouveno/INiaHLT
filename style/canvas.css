@@ -1,7 +1,7 @@
 #canvasContainer{
-	width: 100%;
+	width: auto;
 	height: 100%;
-	flex-shrink: 1;
+	flex-grow: 1;
 	user-select: none;
 	cursor: move;
 }
