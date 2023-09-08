@@ -10,6 +10,7 @@ body{
 	outline-color: red;
 	outline-style: solid;
 	cursor: grab;
+	border-radius: 2px;
 }
 .box:hover{
 	background-color: rgba(255,0,0,.5);
