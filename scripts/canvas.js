@@ -37,7 +37,6 @@ class Canvas {
 	tmp_y;
 	labels = new Set();
 	focusLabel = null;
-	writing = false;
 	defaultLabel = "";
 	constructor(){
 		
@@ -104,18 +103,22 @@ class Canvas {
 			}
 		});
 		window.addEventListener("keydown", e=>{
-			if (e.key == "l") {
-				this.newBox = true;
-			} else if (e.key == "Delete") {
-				if (this.focusLabel && !this.writing)
+			let writing = document.activeElement.tagName == "INPUT";
+			console.dir(document.activeElement);
+			if (!writing){
+				if (e.key == "l") {
+					this.newBox = true;
+				} else if (e.key == "Delete" && this.focusLabel) {
 					this.focusLabel.delete();
-			} else if (e.key == "Enter") {
-				if (this.focusLabel){
-					if(this.writing)
-						this.focusLabel.stopEditing();
-					else
-						this.focusLabel.editLabel();
+				} else if (e.key == "h") {
+					this.toggleLabels();
 				}
+			}
+			if (e.key == "Enter" && this.focusLabel){
+				if(writing)
+					this.focusLabel.stopEditing();
+				else
+					this.focusLabel.editLabel();
 			}
 		});
 		this.dn.addEventListener("input", ()=>{
@@ -124,8 +127,8 @@ class Canvas {
 		this.o.addEventListener("click", ()=>{
 			this.openFolder();
 		});
+		this.img.addEventListener("load", ()=>this.imgLoaded())
 		this.resize();
-		this.correctDrawings();
 	}
 
 	
@@ -142,14 +145,18 @@ class Canvas {
 			this.files.set(file, new FileItem(this, file));
 		});
 	}
+	imgLoaded(){
+		this.resize();
+		this.reset();
+		this.showLabels();
+	}
 	openImage(name){
 		if (this.curFile)
 			this.save();
+		this.hideLabels();
 		this.img.setAttribute("src", this.dir + "\\" + name);
 		this.curFile = name;
 		this.getLabels(name);
-		this.resize();
-		this.reset();
 	}
 	async getLabels(name){
 		const data = await elec.openFile(name);
@@ -257,6 +264,7 @@ class Canvas {
 		let deltaX = x - this.img.naturalWidth / 2;
 		let deltaY = y - this.img.naturalHeight / 2;
 		this.c.style.transform = "scale(" + zoom + ") translate("+ -deltaX +"px, " + -deltaY + "px) ";
+		this.correctDrawings();
 	}
 	resize(){
 		let cc_rect = this.cc.getBoundingClientRect();
@@ -274,6 +282,7 @@ class Canvas {
 		}
 		this.reScale = scale;
 		this.cw.style.transform = "translate" + way + "(" + trans + "px) scale(" + scale + ")";
+		this.correctDrawings();
 	}
 	getLabelsData(){
 		return Array.from(this.labels).map(o=>o.getData());
@@ -290,6 +299,15 @@ class Canvas {
 		data.forEach(o=>{
 			this.labels.add(new Label(this, o));
 		});
+	}
+	hideLabels(){
+		this.c.classList.add("hl");
+	}
+	showLabels(){
+		this.c.classList.remove("hl");
+	}
+	toggleLabels(){
+		this.c.classList.toggle("hl");
 	}
 }
 

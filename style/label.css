@@ -3,7 +3,12 @@ body{
 	--cw: calc(var(--lbw) * 8); /*corner width*/
 	--co: calc(var(--lbw) * -4); /*corner offset*/
 }
-
+#canvas.hl .box, .box.hl{
+	display: none;
+}
+#canvas.hl .box.focus{
+	display: initial;
+}
 .box{
 	position: absolute;
 	outline-width: var(--lbw);
@@ -30,11 +35,12 @@ body{
 	border-radius: 50%;
 	display: none;
 }
-.box.focus>.corner{
+.box.focus>.corner, .box:hover>.corner{
 	display: initial;
 }
 .box>.corner:hover{
 	transform: scale(1.5);
+	
 }
 .box>.corner:nth-child(1){
 	top: var(--co);

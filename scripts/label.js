@@ -40,9 +40,7 @@ class Label{
 		this.e_li.addEventListener("focusin", ()=>{this.focusIn()});
 		this.e_box.addEventListener("focusout", (e)=>{this.focusOut(e.relatedTarget)});
 		this.e_li.addEventListener("focusout", (e)=>{this.focusOut(e.relatedTarget)});
-		this.e_in.addEventListener("focusin", ()=>{this.canvas.writing = true})
 		this.e_in.addEventListener("input", e=>{
-			console.log(e.key);
 			this.label = this.e_in.value;
 		});
 		let i = 0;
@@ -74,7 +72,6 @@ class Label{
 			return ;
 		this.e_box.classList.remove("focus");
 		this.e_li.classList.remove("focus");
-		this.canvas.writing = false;
 		this.e_in.setAttribute('disabled', "");
 		if (!this.e_in.value)
 			this.delete();
