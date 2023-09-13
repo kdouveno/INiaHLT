@@ -147,8 +147,14 @@ class Canvas {
 			this.save();
 		this.img.setAttribute("src", this.dir + "\\" + name);
 		this.curFile = name;
-		this.reset();
+		this.getLabels(name);
 		this.resize();
+		this.reset();
+	}
+	async getLabels(name){
+		const data = await elec.openFile(name);
+		console.log(data);
+		this.fromLabelsData(data.labels, true);
 	}
 	save(){
 		let out = {
@@ -273,7 +279,10 @@ class Canvas {
 	}
 	fromLabelsData(data, replace){
 		if (replace)
-			this.labels.clear();
+			for (const l of this.labels){
+				l.delete();
+			}
+		console.log(data);
 		data.forEach(o=>{
 			this.labels.add(new Label(this, o));
 		});

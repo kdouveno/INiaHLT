@@ -21,7 +21,7 @@ class Label{
 
 	constructor(canvas, x, y){
 		this.canvas = canvas;
-		if (x instanceof labelData){
+		if (typeof x === "object"){
 			this.fromData(x);
 		} else {
 			this.x = x;
@@ -231,9 +231,12 @@ class Label{
 	fromData(data){
 		this.trim();
 		this.label = data.label;
+		this.e_in.value = data.label;
 		this.x = data.xmin;
 		this.y = data.ymin;
 		this.w = data.xmax - data.xmin; 
-		this.h = data.ymax - data.ymin; 
+		this.h = data.ymax - data.ymin;
+		console.log(this);
+		this.draw();
 	}
 }

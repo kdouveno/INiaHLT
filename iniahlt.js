@@ -1,6 +1,7 @@
 const { dialog } = require("electron");
-const xml2js = require("xml2js").parseString;
-const js2xml = new (require("xml2js").Builder);
+const xml2js = new (require("xml2js").Parser)({explicitArray: false});
+const js2xml = new (require("xml2js").Builder)();
+const labelData = require("./scripts/labelData.js");
 const path = require("path");
 const fs = require("fs").promises;
 const jp = require("fs-jetpack");
@@ -37,7 +38,7 @@ class Iniahlt{
 	}
 	async saveFile (data) {
 		let imgPath = path.join(data.dir, data.file);
-		let xmlPath = path.join(data.dir, path.parse(data.file).name + ".xml");
+		let xmlPath = path.join(data.dir, this.getXML(data.file));
 		let boxes = data.labels.map(o=>{
 			return {
 					name: o.label,
@@ -68,6 +69,27 @@ class Iniahlt{
 			}
 		}, {indent: "  "});
 		jp.write(xmlPath, out);
+	}
+	async openFile(fileName){
+		const read = jp.read(path.join(this.dir, this.getXML(fileName)));
+		const data = (await xml2js.parseStringPromise(read)).annotation;
+		let out = {
+			dir: data.folder,
+			file: data.fileName,
+			width: data.size.width,
+			height: data.size.height,
+			labels: data.object.map(o=> new labelData(
+				o.name,
+				parseInt(o.bndbox.xmin),
+				parseInt(o.bndbox.ymin),
+				parseInt(o.bndbox.xmax),
+				parseInt(o.bndbox.ymax)
+			))
+		}
+		return out;
+	}
+	getXML(fileName){
+		return path.parse(fileName).name + ".xml";
 	}
 }
 module.exports = Iniahlt;

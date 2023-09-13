@@ -14,3 +14,5 @@ class labelData{
 		this.ymax = ymax;
 	}
 }
+if (typeof module !== "undefined")
+	module.exports = labelData;
