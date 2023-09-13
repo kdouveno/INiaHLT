@@ -11,7 +11,6 @@ class Iniahlt{
 	dir;
 	saveDir;
 	constructor(){
-		console.log(js2xml.buildObject({feur: {oui: [{ralalah: "no"}, "sauce"]}}));
 		
 	}
 
@@ -37,8 +36,12 @@ class Iniahlt{
 		}
 	}
 	async saveFile (data) {
-		let imgPath = path.join(data.dir, data.file);
 		let xmlPath = path.join(data.dir, this.getXML(data.file));
+		if (data.labels.length == 0){
+			jp.remove(xmlPath);
+			return ;
+		}
+		let imgPath = path.join(data.dir, data.file);
 		let boxes = data.labels.map(o=>{
 			return {
 					name: o.label,
@@ -72,7 +75,11 @@ class Iniahlt{
 	}
 	async openFile(fileName){
 		const read = jp.read(path.join(this.dir, this.getXML(fileName)));
+		if (!read)
+			return read;
 		const data = (await xml2js.parseStringPromise(read)).annotation;
+		if (!(data.object instanceof Array))
+			data.object = [data.object];
 		let out = {
 			dir: data.folder,
 			file: data.fileName,

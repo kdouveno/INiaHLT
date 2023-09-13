@@ -153,7 +153,8 @@ class Canvas {
 	}
 	async getLabels(name){
 		const data = await elec.openFile(name);
-		console.log(data);
+		if (!data)
+			return this.clearLabels();
 		this.fromLabelsData(data.labels, true);
 	}
 	save(){
@@ -277,11 +278,14 @@ class Canvas {
 	getLabelsData(){
 		return Array.from(this.labels).map(o=>o.getData());
 	}
+	clearLabels(){
+		for (const l of this.labels){
+			l.delete();
+		}
+	}
 	fromLabelsData(data, replace){
 		if (replace)
-			for (const l of this.labels){
-				l.delete();
-			}
+			this.clearLabels();
 		console.log(data);
 		data.forEach(o=>{
 			this.labels.add(new Label(this, o));
