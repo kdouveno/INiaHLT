@@ -76,6 +76,8 @@ class Label{
 		this.e_li.classList.remove("focus");
 		this.canvas.writing = false;
 		this.e_in.setAttribute('disabled', "");
+		if (!this.e_in.value)
+			this.delete();
 		if (!r)
 			this.canvas.focusLabel = null;
 	}

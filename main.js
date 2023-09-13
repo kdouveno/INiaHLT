@@ -16,6 +16,7 @@ const createWindow = () => {
   }
   app.whenReady().then(() => {
 	ipcMain.handle('openDir', ()=>Iniahlt.openDir());
+	ipcMain.handle('saveFile', (e, labels)=>Iniahlt.saveFile(labels));
 	createWindow();
 
   })

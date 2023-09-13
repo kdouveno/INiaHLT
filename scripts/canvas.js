@@ -16,6 +16,8 @@ class Canvas {
 	zoomLvl = 1;
 	peakZoomLvl = 4;
 	dir = "";
+	outDir;
+	curFile;
 	// Private Data
 	files = new Map();
 
@@ -140,8 +142,23 @@ class Canvas {
 			this.files.set(file, new FileItem(this, file));
 		});
 	}
+	openImage(name){
+		if (this.curFile)
+			this.save();
+		this.img.setAttribute("src", this.dir + "\\" + name);
+		this.curFile = name;
+		this.reset();
+		this.resize();
+	}
 	save(){
-
+		let out = {
+			dir: this.dir,
+			file: this.curFile,
+			width: this.img.naturalWidth,
+			height: this.img.naturalHeight,
+			labels: this.getLabelsData()
+		}
+		elec.saveFile(out);
 	}
 
 	//COMMANDS

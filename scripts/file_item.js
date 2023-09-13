@@ -13,8 +13,8 @@ class FileItem {
 		this.changeName(fileName);
 		this.canvas.fl.append(this.e);
 
-		this.e_n.addEventListener("dblclick", (e)=>{
-			console.log(this.name + " double clicked");
+		this.e_n.addEventListener("dblclick", ()=>{
+			this.openThis();
 		})
 	}
 
@@ -26,7 +26,7 @@ class FileItem {
 	}
 
 	openThis(){
-		this.canvas.open(this.name);
+		this.canvas.openImage(this.name);
 	}
 	setCurrent(){
 		this.e.classList.addClass("current");
