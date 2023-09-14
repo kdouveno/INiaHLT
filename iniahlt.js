@@ -74,6 +74,7 @@ class Iniahlt{
 		jp.write(xmlPath, out);
 	}
 	async openFile(fileName){
+		console.log(fileName);
 		const read = jp.read(path.join(this.dir, this.getXML(fileName)));
 		if (!read)
 			return read;
@@ -82,7 +83,7 @@ class Iniahlt{
 			data.object = [data.object];
 		let out = {
 			dir: data.folder,
-			file: data.fileName,
+			file: data.filename,
 			width: data.size.width,
 			height: data.size.height,
 			labels: data.object.map(o=> new labelData(

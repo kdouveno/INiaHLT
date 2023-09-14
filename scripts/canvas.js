@@ -173,10 +173,10 @@ class Canvas {
 	async getLabels(name){
 		const data = await elec.openFile(name);
 		console.log(data, this.curFile);
-		if (data.file != this.curFile)
-			return ;
 		if (!data)
 			return this.clearLabels();
+		if (data.file != this.curFile)
+			return ;
 		this.fromLabelsData(data.labels, true);
 	}
 	save(){
