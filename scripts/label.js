@@ -234,7 +234,6 @@ class Label{
 		this.y = data.ymin;
 		this.w = data.xmax - data.xmin; 
 		this.h = data.ymax - data.ymin;
-		console.log(this);
 		this.draw();
 	}
 	index(){
