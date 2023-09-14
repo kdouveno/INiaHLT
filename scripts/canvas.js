@@ -106,7 +106,7 @@ class Canvas {
 			let writing = document.activeElement.tagName == "INPUT";
 			console.dir(document.activeElement);
 			if (!writing){
-				if (e.key == "l") {
+				if (e.key == "w") {
 					this.newBox = true;
 				} else if (e.key == "Delete" && this.focusLabel) {
 					this.focusLabel.delete();
