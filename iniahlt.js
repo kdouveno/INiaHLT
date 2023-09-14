@@ -91,8 +91,7 @@ class Iniahlt{
 			parseInt(o.bndbox.ymax)
 		)) : [];
 		let out = {
-			dir: data.folder,
-			file: data.filename,
+			file: fileName,
 			width: data.size.width,
 			height: data.size.height,
 			labels: labels
