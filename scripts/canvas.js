@@ -10,7 +10,7 @@ class Canvas {
 	o = document.getElementById("open_folder");
 	fl = document.getElementById("file_list");
 	// Settings
-	zim = 1; //Zoom Increment Style : 0 (addition) | 1 (multpiplication)
+	zim = 0; //Zoom Increment Style : 0 (addition) | 1 (multpiplication)
 	// Parameters
 	peakMode;
 	zoomLvl = 1;
@@ -67,7 +67,7 @@ class Canvas {
 		this.cc.addEventListener('contextmenu', event => event.preventDefault());
 		this.c.addEventListener('hold', event => event.preventDefault());
 		this.cc.addEventListener("wheel", e=> {
-			this.zoom(e.deltaY / 50);
+			this.zoom(e.deltaY / 80);
 		});
 		this.cc.addEventListener("mousedown", e=> {
 			if (e.button == 0)
