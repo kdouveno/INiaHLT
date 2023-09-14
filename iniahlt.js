@@ -81,20 +81,21 @@ class Iniahlt{
 		if (!read)
 			return read;
 		const data = (await xml2js.parseStringPromise(read)).annotation;
-		if (!(data.object instanceof Array))
+		if (data.object && !(data.object instanceof Array))
 			data.object = [data.object];
+		let labels = data.object ? data.object.map(o=> new labelData(
+			o.name,
+			parseInt(o.bndbox.xmin),
+			parseInt(o.bndbox.ymin),
+			parseInt(o.bndbox.xmax),
+			parseInt(o.bndbox.ymax)
+		)) : [];
 		let out = {
 			dir: data.folder,
 			file: data.filename,
 			width: data.size.width,
 			height: data.size.height,
-			labels: data.object.map(o=> new labelData(
-				o.name,
-				parseInt(o.bndbox.xmin),
-				parseInt(o.bndbox.ymin),
-				parseInt(o.bndbox.xmax),
-				parseInt(o.bndbox.ymax)
-			))
+			labels: lebels
 		}
 		return out;
 	}
