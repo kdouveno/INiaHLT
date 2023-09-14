@@ -27,6 +27,7 @@ class Iniahlt{
 				out = out.filter(e=>{
 					return /\.jpg|\.jpeg|\.png/.test(e);
 				});
+				this.files = [...out];
 				out.unshift(p);
 
 				return out;
@@ -74,6 +75,8 @@ class Iniahlt{
 		jp.write(xmlPath, out);
 	}
 	async openFile(fileName){
+		this.win.setTitle("INiaHLT " + path.join(this.dir, this.getXML(fileName)) + " ["+(this.files.indexOf(fileName) + 1)+"/"+this.files.length+"]");
+
 		const read = jp.read(path.join(this.dir, this.getXML(fileName)));
 		if (!read)
 			return read;

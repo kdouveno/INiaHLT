@@ -20,6 +20,7 @@ class Canvas {
 	curFile;
 	// Private Data
 	files = new Map();
+	orderedFiles = [];
 
 	reScale;
 	vp_pt_x;
@@ -145,8 +146,11 @@ class Canvas {
 	}
 
 	updateFolder(fileNameArray){
+		this.files.clear();
+		this.orderedFiles = [];
 		fileNameArray.forEach((file)=>{
 			this.files.set(file, new FileItem(this, file));
+			this.orderedFiles.push(file); 
 		});
 	}
 	imgLoaded(){
@@ -163,12 +167,11 @@ class Canvas {
 		this.getLabels(name);
 	}
 	openNext(previous){
-		let tab = Array.from(this.files.keys());
-		let index = tab.indexOf(this.curFile);
+		let index = this.orderedFiles.indexOf(this.curFile);
 		index += previous ? -1 : 1;
-		if (index >= tab.length)
+		if (index >= this.orderedFiles.length)
 			index = 0;
-		this.openImage(tab.at(index));
+		this.openImage(this.orderedFiles.at(index));
 	}
 	async getLabels(name){
 		const data = await elec.openFile(name);
