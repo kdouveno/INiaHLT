@@ -95,7 +95,7 @@ class Iniahlt{
 			file: data.filename,
 			width: data.size.width,
 			height: data.size.height,
-			labels: lebels
+			labels: labels
 		}
 		return out;
 	}
