@@ -74,7 +74,6 @@ class Iniahlt{
 		jp.write(xmlPath, out);
 	}
 	async openFile(fileName){
-		console.log(fileName);
 		const read = jp.read(path.join(this.dir, this.getXML(fileName)));
 		if (!read)
 			return read;

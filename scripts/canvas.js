@@ -81,7 +81,6 @@ class Canvas {
 					this.newBox = false;
 					return;
 				}
-				console.log("prout");
 				this.shifting = true;
 			} else if (e.button == 2){
 				this.peakMode = true;
@@ -104,7 +103,6 @@ class Canvas {
 		});
 		window.addEventListener("keydown", e=>{
 			let writing = document.activeElement.tagName == "INPUT";
-			console.dir(document.activeElement);
 			if (!writing){
 				if (e.key == "w") {
 					this.newBox = true;
@@ -116,6 +114,8 @@ class Canvas {
 					this.openNext();
 				} else if (e.key == "a") {
 					this.openNext(true);
+				} else if (e.key == "f") {
+					this.reset();
 				}
 			}
 			if (e.key == "Enter" && this.focusLabel){
@@ -172,7 +172,6 @@ class Canvas {
 	}
 	async getLabels(name){
 		const data = await elec.openFile(name);
-		console.log(data, this.curFile);
 		if (!data)
 			return this.clearLabels();
 		if (data.file != this.curFile)
@@ -311,7 +310,6 @@ class Canvas {
 	fromLabelsData(data, replace){
 		if (replace)
 			this.clearLabels();
-		console.log(data);
 		data.forEach(o=>{
 			this.labels.push(new Label(this, o));
 		});
