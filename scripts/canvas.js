@@ -148,8 +148,9 @@ class Canvas {
 	updateFolder(fileNameArray){
 		this.files.clear();
 		this.orderedFiles = [];
+		let i = 0;
 		fileNameArray.forEach((file)=>{
-			this.files.set(file, new FileItem(this, file));
+			this.files.set(file, new FileItem(this, file, i++));
 			this.orderedFiles.push(file); 
 		});
 	}
