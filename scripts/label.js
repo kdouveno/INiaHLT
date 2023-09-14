@@ -186,7 +186,7 @@ class Label{
 		this.h = Math.abs(this.tmp_h + dy);
 		this.draw();
 	}
-	delete(){
+	delete(man){
 		this.e_box.remove();
 		this.e_li.remove();
 		this.e_in.remove();
@@ -194,7 +194,8 @@ class Label{
 			this.canvas.writing = false;
 			this.canvas.focusLabel = null;
 		}
-		this.canvas.labels.delete(this);
+		if (!man)
+			this.canvas.labels.splice(this.index(), 1);
 	}
 	getData(){
 		return new labelData(
@@ -235,5 +236,8 @@ class Label{
 		this.h = data.ymax - data.ymin;
 		console.log(this);
 		this.draw();
+	}
+	index(){
+		return this.canvas.labels.indexOf(this);
 	}
 }

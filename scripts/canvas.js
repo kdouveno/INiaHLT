@@ -35,7 +35,7 @@ class Canvas {
 	ctr_y = this.img.naturalHeight / 2;
 	tmp_x;
 	tmp_y;
-	labels = new Set();
+	labels = [];
 	focusLabel = null;
 	defaultLabel = "";
 	constructor(){
@@ -112,6 +112,10 @@ class Canvas {
 					this.focusLabel.delete();
 				} else if (e.key == "h") {
 					this.toggleLabels();
+				} else if (e.key == "d") {
+					this.openNext();
+				} else if (e.key == "a") {
+					this.openNext(true);
 				}
 			}
 			if (e.key == "Enter" && this.focusLabel){
@@ -158,8 +162,19 @@ class Canvas {
 		this.curFile = name;
 		this.getLabels(name);
 	}
+	openNext(previous){
+		let tab = Array.from(this.files.keys());
+		let index = tab.indexOf(this.curFile);
+		index += previous ? -1 : 1;
+		if (index >= tab.length)
+			index = 0;
+		this.openImage(tab.at(index));
+	}
 	async getLabels(name){
 		const data = await elec.openFile(name);
+		console.log(data, this.curFile);
+		if (data.file != this.curFile)
+			return ;
 		if (!data)
 			return this.clearLabels();
 		this.fromLabelsData(data.labels, true);
@@ -226,7 +241,7 @@ class Canvas {
 
 	createBox(){
 		let nl = new Label(this, this.img_pt_x, this.img_pt_y);
-		this.labels.add(nl);
+		this.labels.push(nl);
 
 		nl.focusIn();
 		nl.startPull(0);
@@ -285,19 +300,20 @@ class Canvas {
 		this.correctDrawings();
 	}
 	getLabelsData(){
-		return Array.from(this.labels).map(o=>o.getData());
+		return this.labels.map(o=>o.getData());
 	}
 	clearLabels(){
-		for (const l of this.labels){
-			l.delete();
-		}
+		this.labels.forEach(o=>{
+			o.delete(true);
+		});
+		this.labels = [];
 	}
 	fromLabelsData(data, replace){
 		if (replace)
 			this.clearLabels();
 		console.log(data);
 		data.forEach(o=>{
-			this.labels.add(new Label(this, o));
+			this.labels.push(new Label(this, o));
 		});
 	}
 	hideLabels(){
@@ -309,6 +325,8 @@ class Canvas {
 	toggleLabels(){
 		this.c.classList.toggle("hl");
 	}
+
+
 }
 
 canvas = new Canvas();
