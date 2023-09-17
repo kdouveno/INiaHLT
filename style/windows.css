@@ -35,7 +35,7 @@
 	min-width: 0px;
 }
 .list_item.focus{
-	background-color: rgb(173, 203, 226);
+	background-color: rgb(55, 65, 73);
 }
 .list_item>span{
 	min-width: 20px;
